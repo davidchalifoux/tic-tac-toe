@@ -10,7 +10,7 @@
     <div class="box" @click="play(2, 1)">{{ board[2][1] }}</div>
     <div class="box" @click="play(2, 2)">{{ board[2][2] }}</div>
   </div>
-  <p>Turn: {{ currentPlayer }}</p>
+  <p v-if="!winner">Turn: {{ currentPlayer }}</p>
   <p v-if="winner">Winner: {{ currentPlayer }}</p>
 </template>
 
@@ -31,17 +31,19 @@ export default {
   computed: {},
   methods: {
     play(rowIndex, boxIndex) {
-      if (this.board[rowIndex][boxIndex] === null) {
-        this.board[rowIndex][boxIndex] = this.currentPlayer;
+      if (!this.checkWinner()) {
+        if (this.board[rowIndex][boxIndex] === null) {
+          this.board[rowIndex][boxIndex] = this.currentPlayer;
 
-        if (this.checkWinner()) {
-          this.winner = this.currentPlayer;
-        } else {
-          // Rotate current player
-          if (this.currentPlayer == "O") {
-            this.currentPlayer = "X";
+          if (this.checkWinner()) {
+            this.winner = this.currentPlayer;
           } else {
-            this.currentPlayer = "O";
+            // Rotate current player
+            if (this.currentPlayer == "O") {
+              this.currentPlayer = "X";
+            } else {
+              this.currentPlayer = "O";
+            }
           }
         }
       }
