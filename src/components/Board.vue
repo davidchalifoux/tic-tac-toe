@@ -11,7 +11,7 @@
     <div class="box" @click="play(2, 2)">{{ board[2][2] }}</div>
   </div>
   <p v-if="!winner">Turn: {{ currentPlayer }}</p>
-  <p v-if="winner">Winner: {{ currentPlayer }}</p>
+  <p v-if="winner">{{ currentPlayer }} wins!</p>
 </template>
 
 <script>
