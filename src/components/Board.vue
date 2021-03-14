@@ -153,6 +153,7 @@ export default {
   justify-content: center;
   height: 100%;
   width: 100%;
+  color: #ff4600;
 }
 .box:hover {
   cursor: pointer;
