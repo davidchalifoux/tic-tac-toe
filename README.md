@@ -1,4 +1,5 @@
 # tic-tac-toe
+The game of tic-tac-toe built in Vue.
 
 ## Project setup
 ```
