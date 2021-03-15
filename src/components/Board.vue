@@ -233,6 +233,20 @@ export default {
         return true;
       }
 
+      // Tie
+      let playable = [];
+      for (let row = 0; row < this.board.length; row++) {
+        for (let column = 0; column < this.board[row].length; column++) {
+          if (this.board[row][column] === null) {
+            playable.push([row, column]);
+          }
+        }
+      }
+      if (playable.length === 0) {
+        this.currentPlayer = "Nobody";
+        return true;
+      }
+
       // No winner
       return false;
     },
