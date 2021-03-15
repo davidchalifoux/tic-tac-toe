@@ -126,7 +126,7 @@ export default {
               // Delay AI's turn
               setTimeout(() => {
                 this.playAI();
-              }, 500);
+              }, 250);
             }
           }
         }
@@ -206,6 +206,7 @@ export default {
         [null, null, null],
       ];
       this.winner = null;
+      this.playCount = 0;
       // Same as mounted()
       const players = ["O", "X"];
       this.currentPlayer = players[Math.floor(Math.random() * 2)];
