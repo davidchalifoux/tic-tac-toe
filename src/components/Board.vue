@@ -138,7 +138,7 @@ export default {
        * @param {Array} a items An array containing the items.
        */
       function shuffle(a) {
-        var j, x, i;
+        let j, x, i;
         for (i = a.length - 1; i > 0; i--) {
           j = Math.floor(Math.random() * (i + 1));
           x = a[i];
@@ -160,22 +160,22 @@ export default {
         }
         shuffle(playable);
         let move = playable[0];
-        if (this.checkWinningMove()){
-                var x = this.checkWinningMove()
-                this.play(x[0],x[1])
-              }else{
-                this.play(move[0], move[1]);
-              }
-        
+        if (this.checkWinningMove()) {
+          let x = this.checkWinningMove();
+          this.play(x[0], x[1]);
+        } else {
+          this.play(move[0], move[1]);
+        }
+
         // Non-Memoization
       } else if (!this.memoizationToggle) {
         for (let row = 0; row < this.board.length; row++) {
           for (let column = 0; column < this.board[row].length; column++) {
             if (this.board[row][column] === null) {
-              if (this.checkWinningMove()){
-                var x = this.checkWinningMove()
-                return this.play(x[0],x[1])
-              }else{
+              if (this.checkWinningMove()) {
+                let x = this.checkWinningMove();
+                return this.play(x[0], x[1]);
+              } else {
                 return this.play(row, column);
               }
             }
@@ -309,130 +309,130 @@ export default {
       // top left
       if (
         (board[0][0] == null &&
-        board[1][0] === this.currentPlayer &&
-        board[2][0] === this.currentPlayer) ||
+          board[1][0] === this.currentPlayer &&
+          board[2][0] === this.currentPlayer) ||
         (board[0][0] == null &&
-        board[0][1] === this.currentPlayer &&
-        board[0][2] === this.currentPlayer) ||
+          board[0][1] === this.currentPlayer &&
+          board[0][2] === this.currentPlayer) ||
         (board[0][0] == null &&
-        board[1][1] === this.currentPlayer &&
-        board[2][2] === this.currentPlayer)
+          board[1][1] === this.currentPlayer &&
+          board[2][2] === this.currentPlayer)
       ) {
-        return [0,0];
+        return [0, 0];
       }
 
       // top middle
       if (
         (board[0][1] == null &&
-        board[1][1] === this.currentPlayer &&
-        board[2][1] === this.currentPlayer) ||
+          board[1][1] === this.currentPlayer &&
+          board[2][1] === this.currentPlayer) ||
         (board[0][1] == null &&
-        board[0][0] === this.currentPlayer &&
-        board[0][2] === this.currentPlayer)
+          board[0][0] === this.currentPlayer &&
+          board[0][2] === this.currentPlayer)
       ) {
-        return [0,1];
+        return [0, 1];
       }
 
       // top right
       if (
         (board[0][2] == null &&
-        board[0][0] === this.currentPlayer &&
-        board[0][1] === this.currentPlayer) ||
+          board[0][0] === this.currentPlayer &&
+          board[0][1] === this.currentPlayer) ||
         (board[0][2] == null &&
-        board[1][2] === this.currentPlayer &&
-        board[2][2] === this.currentPlayer) ||
+          board[1][2] === this.currentPlayer &&
+          board[2][2] === this.currentPlayer) ||
         (board[0][2] == null &&
-        board[1][1] === this.currentPlayer &&
-        board[2][0] === this.currentPlayer)
+          board[1][1] === this.currentPlayer &&
+          board[2][0] === this.currentPlayer)
       ) {
-        return [0,2];
+        return [0, 2];
       }
 
       // middle left
       if (
         (board[1][0] == null &&
-        board[0][0] === this.currentPlayer &&
-        board[2][0] === this.currentPlayer) ||
+          board[0][0] === this.currentPlayer &&
+          board[2][0] === this.currentPlayer) ||
         (board[1][0] == null &&
-        board[1][1] === this.currentPlayer &&
-        board[1][2] === this.currentPlayer)
+          board[1][1] === this.currentPlayer &&
+          board[1][2] === this.currentPlayer)
       ) {
-        return [1,0];
+        return [1, 0];
       }
 
       // middle middle
       if (
         (board[1][1] == null &&
-        board[0][1] === this.currentPlayer &&
-        board[2][1] === this.currentPlayer) ||
+          board[0][1] === this.currentPlayer &&
+          board[2][1] === this.currentPlayer) ||
         (board[1][1] == null &&
-        board[1][0] === this.currentPlayer &&
-        board[1][2] === this.currentPlayer) ||
+          board[1][0] === this.currentPlayer &&
+          board[1][2] === this.currentPlayer) ||
         (board[1][1] == null &&
-        board[2][0] === this.currentPlayer &&
-        board[0][2] === this.currentPlayer) ||
+          board[2][0] === this.currentPlayer &&
+          board[0][2] === this.currentPlayer) ||
         (board[1][1] == null &&
-        board[0][0] === this.currentPlayer &&
-        board[2][2] === this.currentPlayer)
+          board[0][0] === this.currentPlayer &&
+          board[2][2] === this.currentPlayer)
       ) {
-        return [1,1];
+        return [1, 1];
       }
 
       // middle right
       if (
         (board[1][2] == null &&
-        board[1][0] === this.currentPlayer &&
-        board[1][1] === this.currentPlayer) ||
+          board[1][0] === this.currentPlayer &&
+          board[1][1] === this.currentPlayer) ||
         (board[1][2] == null &&
-        board[0][2] === this.currentPlayer &&
-        board[2][2] === this.currentPlayer) 
+          board[0][2] === this.currentPlayer &&
+          board[2][2] === this.currentPlayer)
       ) {
-        return [1,2];
+        return [1, 2];
       }
 
       // bottom left
       if (
         (board[2][0] == null &&
-        board[1][1] === this.currentPlayer &&
-        board[0][2] === this.currentPlayer) ||
+          board[1][1] === this.currentPlayer &&
+          board[0][2] === this.currentPlayer) ||
         (board[2][0] == null &&
-        board[2][1] === this.currentPlayer &&
-        board[2][2] === this.currentPlayer) ||
+          board[2][1] === this.currentPlayer &&
+          board[2][2] === this.currentPlayer) ||
         (board[2][0] == null &&
-        board[1][0] === this.currentPlayer &&
-        board[0][0] === this.currentPlayer)
+          board[1][0] === this.currentPlayer &&
+          board[0][0] === this.currentPlayer)
       ) {
-        return [2,0];
+        return [2, 0];
       }
 
       // bottom middle
       if (
         (board[2][1] == null &&
-        board[2][2] === this.currentPlayer &&
-        board[2][0] === this.currentPlayer) ||
+          board[2][2] === this.currentPlayer &&
+          board[2][0] === this.currentPlayer) ||
         (board[2][1] == null &&
-        board[0][1] === this.currentPlayer &&
-        board[1][1] === this.currentPlayer) 
+          board[0][1] === this.currentPlayer &&
+          board[1][1] === this.currentPlayer)
       ) {
-        return [2,1];
+        return [2, 1];
       }
 
       // bottom right
       if (
         (board[2][2] == null &&
-        board[0][2] === this.currentPlayer &&
-        board[1][2] === this.currentPlayer) ||
+          board[0][2] === this.currentPlayer &&
+          board[1][2] === this.currentPlayer) ||
         (board[2][2] == null &&
-        board[0][0] === this.currentPlayer &&
-        board[1][1] === this.currentPlayer) ||
+          board[0][0] === this.currentPlayer &&
+          board[1][1] === this.currentPlayer) ||
         (board[2][2] == null &&
-        board[2][0] === this.currentPlayer &&
-        board[2][1] === this.currentPlayer)
+          board[2][0] === this.currentPlayer &&
+          board[2][1] === this.currentPlayer)
       ) {
-        return [2,2];
+        return [2, 2];
       }
       return false;
-    }
+    },
   },
   mounted() {
     const players = ["O", "X"];
