@@ -71,7 +71,14 @@
     Memoization: <span v-if="memoizationToggle">on</span
     ><span v-if="!memoizationToggle">off</span>
   </p>
-  <p v-if="!winner">Turn: {{ currentPlayer }}</p>
+  <p class="button" @click="firstMoveAI()" v-if="playCount == 0 && aiToggle">
+    AI goes first
+  </p>
+  <p v-if="!winner">
+    {{ currentPlayer }}'s turn
+    <span v-if="currentPlayer == humanPlayer">(Human)</span>
+    <span v-if="currentPlayer != humanPlayer">(AI)</span>
+  </p>
   <p v-if="winner">
     {{ currentPlayer }} wins!
     <span class="button" @click="reset()">Play again?</span>
@@ -88,6 +95,7 @@ export default {
         [null, null, null],
         [null, null, null],
       ],
+      playCount: 0,
       currentPlayer: null,
       humanPlayer: null,
       winner: null,
@@ -101,6 +109,7 @@ export default {
       if (!this.checkWinner()) {
         if (this.board[rowIndex][boxIndex] === null) {
           this.board[rowIndex][boxIndex] = this.currentPlayer;
+          this.playCount++;
 
           if (this.checkWinner()) {
             this.winner = this.currentPlayer;
@@ -114,7 +123,10 @@ export default {
 
             // Check if AIs turn
             if (this.aiToggle && this.currentPlayer != this.humanPlayer) {
-              this.playAI();
+              // Delay AI's turn
+              setTimeout(() => {
+                this.playAI();
+              }, 500);
             }
           }
         }
@@ -159,6 +171,16 @@ export default {
           }
         }
       }
+    },
+    firstMoveAI() {
+      // Rotate current player
+      if (this.currentPlayer == "O") {
+        this.currentPlayer = "X";
+      } else {
+        this.currentPlayer = "O";
+      }
+
+      this.playAI();
     },
     toggleAI() {
       this.aiToggle = !this.aiToggle;
