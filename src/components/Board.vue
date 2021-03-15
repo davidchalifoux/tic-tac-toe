@@ -68,7 +68,10 @@
     AI: <span v-if="aiToggle">on</span><span v-if="!aiToggle">off</span>
   </p>
   <p v-if="!winner">Turn: {{ currentPlayer }}</p>
-  <p v-if="winner">{{ currentPlayer }} wins!</p>
+  <p v-if="winner">
+    {{ currentPlayer }} wins!
+    <span class="button" @click="reset()">Play again?</span>
+  </p>
 </template>
 
 <script>
@@ -142,6 +145,18 @@ export default {
     },
     toggleAI() {
       this.aiToggle = !this.aiToggle;
+    },
+    reset() {
+      this.board = [
+        [null, null, null],
+        [null, null, null],
+        [null, null, null],
+      ];
+      this.winner = null;
+      // Same as mounted()
+      const players = ["O", "X"];
+      this.currentPlayer = players[Math.floor(Math.random() * 2)];
+      this.humanPlayer = this.currentPlayer;
     },
     checkWinner() {
       let board = this.board;
