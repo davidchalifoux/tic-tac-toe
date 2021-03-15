@@ -67,6 +67,10 @@
   <p class="button" @click="toggleAI()">
     AI: <span v-if="aiToggle">on</span><span v-if="!aiToggle">off</span>
   </p>
+  <p class="button" @click="toggleMemoization()" v-if="aiToggle">
+    Memoization: <span v-if="memoizationToggle">on</span
+    ><span v-if="!memoizationToggle">off</span>
+  </p>
   <p v-if="!winner">Turn: {{ currentPlayer }}</p>
   <p v-if="winner">
     {{ currentPlayer }} wins!
@@ -88,6 +92,7 @@ export default {
       humanPlayer: null,
       winner: null,
       aiToggle: true,
+      memoizationToggle: true,
     };
   },
   computed: {},
@@ -131,20 +136,35 @@ export default {
         return a;
       }
 
-      let playable = [];
-      for (let row = 0; row < this.board.length; row++) {
-        for (let column = 0; column < this.board[row].length; column++) {
-          if (this.board[row][column] === null) {
-            playable.push([row, column]);
+      // Memoization
+      if (this.memoizationToggle) {
+        let playable = [];
+        for (let row = 0; row < this.board.length; row++) {
+          for (let column = 0; column < this.board[row].length; column++) {
+            if (this.board[row][column] === null) {
+              playable.push([row, column]);
+            }
+          }
+        }
+        shuffle(playable);
+        let move = playable[0];
+        this.play(move[0], move[1]);
+        // Non-Memoization
+      } else if (!this.memoizationToggle) {
+        for (let row = 0; row < this.board.length; row++) {
+          for (let column = 0; column < this.board[row].length; column++) {
+            if (this.board[row][column] === null) {
+              return this.play(row, column);
+            }
           }
         }
       }
-      shuffle(playable);
-      let move = playable[0];
-      this.play(move[0], move[1]);
     },
     toggleAI() {
       this.aiToggle = !this.aiToggle;
+    },
+    toggleMemoization() {
+      this.memoizationToggle = !this.memoizationToggle;
     },
     reset() {
       this.board = [
