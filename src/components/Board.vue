@@ -316,4 +316,7 @@ export default {
 .box:hover {
   cursor: pointer;
 }
+p {
+  width: 300px;
+}
 </style>
