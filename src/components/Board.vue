@@ -83,6 +83,12 @@
     {{ currentPlayer }} wins!
     <span class="button" @click="reset()">Play again?</span>
   </p>
+  <p v-if="winner && aiToggle && memoizationToggle">
+    Memoization work: {{ memoizationCounter }}
+  </p>
+  <p v-if="winner && aiToggle && !memoizationToggle">
+    Non-memoization work: {{ nonMemoizationCounter }}
+  </p>
 </template>
 
 <script>
@@ -101,6 +107,8 @@ export default {
       winner: null,
       aiToggle: true,
       memoizationToggle: true,
+      memoizationCounter: 0,
+      nonMemoizationCounter: 0,
     };
   },
   computed: {},
@@ -153,6 +161,7 @@ export default {
         let playable = [];
         for (let row = 0; row < this.board.length; row++) {
           for (let column = 0; column < this.board[row].length; column++) {
+            this.memoizationCounter++;
             if (this.board[row][column] === null) {
               playable.push([row, column]);
             }
@@ -160,8 +169,8 @@ export default {
         }
         shuffle(playable);
         let move = playable[0];
-        if (this.checkWinningMove()) {
-          let x = this.checkWinningMove();
+        if (this.checkWinningMove("memoization")) {
+          let x = this.checkWinningMove("memoization");
           this.play(x[0], x[1]);
         } else {
           this.play(move[0], move[1]);
@@ -171,9 +180,10 @@ export default {
       } else if (!this.memoizationToggle) {
         for (let row = 0; row < this.board.length; row++) {
           for (let column = 0; column < this.board[row].length; column++) {
+            this.nonMemoizationCounter++;
             if (this.board[row][column] === null) {
-              if (this.checkWinningMove()) {
-                let x = this.checkWinningMove();
+              if (this.checkWinningMove("nonmemoization")) {
+                let x = this.checkWinningMove("nonmemoization");
                 return this.play(x[0], x[1]);
               } else {
                 return this.play(row, column);
@@ -207,6 +217,8 @@ export default {
       ];
       this.winner = null;
       this.playCount = 0;
+      this.memoizationCounter = 0;
+      this.nonMemoizationCounter = 0;
       // Same as mounted()
       const players = ["O", "X"];
       this.currentPlayer = players[Math.floor(Math.random() * 2)];
@@ -304,10 +316,15 @@ export default {
       // No winner
       return false;
     },
-    checkWinningMove() {
+    checkWinningMove(memType) {
       let board = this.board;
 
       // top left
+      if (memType == "memoization") {
+        this.memoizationCounter += 9;
+      } else if (memType == "nonmemoization") {
+        this.nonMemoizationCounter += 9;
+      }
       if (
         (board[0][0] == null &&
           board[1][0] === this.currentPlayer &&
@@ -323,6 +340,11 @@ export default {
       }
 
       // top middle
+      if (memType == "memoization") {
+        this.memoizationCounter += 6;
+      } else if (memType == "nonmemoization") {
+        this.nonMemoizationCounter += 6;
+      }
       if (
         (board[0][1] == null &&
           board[1][1] === this.currentPlayer &&
@@ -335,6 +357,11 @@ export default {
       }
 
       // top right
+      if (memType == "memoization") {
+        this.memoizationCounter += 9;
+      } else if (memType == "nonmemoization") {
+        this.nonMemoizationCounter += 9;
+      }
       if (
         (board[0][2] == null &&
           board[0][0] === this.currentPlayer &&
@@ -350,6 +377,11 @@ export default {
       }
 
       // middle left
+      if (memType == "memoization") {
+        this.memoizationCounter += 6;
+      } else if (memType == "nonmemoization") {
+        this.nonMemoizationCounter += 6;
+      }
       if (
         (board[1][0] == null &&
           board[0][0] === this.currentPlayer &&
@@ -362,6 +394,11 @@ export default {
       }
 
       // middle middle
+      if (memType == "memoization") {
+        this.memoizationCounter += 12;
+      } else if (memType == "nonmemoization") {
+        this.nonMemoizationCounter += 12;
+      }
       if (
         (board[1][1] == null &&
           board[0][1] === this.currentPlayer &&
@@ -380,6 +417,11 @@ export default {
       }
 
       // middle right
+      if (memType == "memoization") {
+        this.memoizationCounter += 6;
+      } else if (memType == "nonmemoization") {
+        this.nonMemoizationCounter += 6;
+      }
       if (
         (board[1][2] == null &&
           board[1][0] === this.currentPlayer &&
@@ -392,6 +434,11 @@ export default {
       }
 
       // bottom left
+      if (memType == "memoization") {
+        this.memoizationCounter += 9;
+      } else if (memType == "nonmemoization") {
+        this.nonMemoizationCounter += 9;
+      }
       if (
         (board[2][0] == null &&
           board[1][1] === this.currentPlayer &&
@@ -407,6 +454,11 @@ export default {
       }
 
       // bottom middle
+      if (memType == "memoization") {
+        this.memoizationCounter += 6;
+      } else if (memType == "nonmemoization") {
+        this.nonMemoizationCounter += 6;
+      }
       if (
         (board[2][1] == null &&
           board[2][2] === this.currentPlayer &&
@@ -419,6 +471,11 @@ export default {
       }
 
       // bottom right
+      if (memType == "memoization") {
+        this.memoizationCounter += 9;
+      } else if (memType == "nonmemoization") {
+        this.nonMemoizationCounter += 9;
+      }
       if (
         (board[2][2] == null &&
           board[0][2] === this.currentPlayer &&
