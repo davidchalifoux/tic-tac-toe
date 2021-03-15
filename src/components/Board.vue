@@ -249,6 +249,7 @@ export default {
   justify-content: center;
   height: 100%;
   width: 100%;
+  font-size: 18pt;
 }
 .button {
   user-select: none;
